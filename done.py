@@ -2,6 +2,7 @@ import os
 import gspread
 from google.cloud import videointelligence
 from oauth2client.service_account import ServiceAccountCredentials
+from uri import video1
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'lala.json'
 
@@ -18,7 +19,7 @@ sheet = client.open('lala').sheet1
 def update_transcription_to_sheet(transcription):
     sheet.update('B1', transcription)
 
-def videoinspector(video_uri, transcribe=True):
+def videoinspector(video_urii, transcribe=True):
     # Set up the video intelligence client
     video_client = videointelligence.VideoIntelligenceServiceClient()
     features = [videointelligence.Feature.SPEECH_TRANSCRIPTION]
@@ -31,7 +32,7 @@ def videoinspector(video_uri, transcribe=True):
     operation = video_client.annotate_video(
         request={
             "features": features,
-            "input_uri": video_uri,
+            "input_uri": video_urii,
             "video_context": video_context,
         }
     )
@@ -53,14 +54,14 @@ def videoinspector(video_uri, transcribe=True):
 
 
 # Get the URL from cell A1
-cell = sheet.cell(1, 1)
-video_url = cell.value
+#cell = sheet.cell(1, 1)
+#video_url = video_uri
 
 # Extract the video ID from the URL
-video_id = video_url.split('/')[-2]
+#video_id = video_url.split('/')[-2]
 
 # Create the video URI
-video_uri = f"gs://speech_ig/{video_id}.mp4"
+video_urii = video1
 
 # Call the videoinspector function
-videoinspector(video_uri, transcribe=True)
+videoinspector(video_urii, transcribe=True)
