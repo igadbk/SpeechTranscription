@@ -29,10 +29,12 @@ def get_video_uri():
 # Użyj funkcji get_video_uri do uzyskania video_uri
 video_uri = get_video_uri()
 
-video = video_uri.split('/')[-2]
+video = video_uri.split('/')[-1]
 
-video1 = f"gs://speech_ig/{video}.mp4"
+video1 = f"gs://speech_ig/{video}"
+
+done = video1
 
 # Wyświetl odczytany video_uri
-print(video1)
+print(done)
 

@@ -2,7 +2,7 @@ import os
 import gspread
 from google.cloud import videointelligence
 from oauth2client.service_account import ServiceAccountCredentials
-from uri import video1
+from uri import done
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'lala.json'
 
@@ -61,7 +61,7 @@ def videoinspector(video_urii, transcribe=True):
 #video_id = video_url.split('/')[-2]
 
 # Create the video URI
-video_urii = video1
+video_urii = done
 
 # Call the videoinspector function
 videoinspector(video_urii, transcribe=True)
