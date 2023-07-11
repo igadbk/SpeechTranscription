@@ -1,5 +1,6 @@
 import os
 import gspread
+import time
 from google.cloud import videointelligence
 from oauth2client.service_account import ServiceAccountCredentials
 from uri import done
@@ -17,6 +18,7 @@ client = gspread.authorize(creds)
 sheet = client.open('lala').sheet1
 
 def update_transcription_to_sheet(transcription):
+    # Update cell B1 with the actual transcription result
     sheet.update('B1', transcription)
 
 def videoinspector(video_urii, transcribe=True):
@@ -38,7 +40,6 @@ def videoinspector(video_urii, transcribe=True):
     )
 
     if transcribe:
-        print("Processing. Please wait...")
         result = operation.result()
 
         annotation_results = result.annotation_results[0]
@@ -49,19 +50,15 @@ def videoinspector(video_urii, transcribe=True):
                 transcription += "Confidence: {}\n\n".format(alternative.confidence)
 
         update_transcription_to_sheet(transcription)
-    else:
-        print("Processing. Please wait... (Transcription disabled)")
 
-
-# Get the URL from cell A1
-#cell = sheet.cell(1, 1)
-#video_url = video_uri
-
-# Extract the video ID from the URL
-#video_id = video_url.split('/')[-2]
+# Display the "Processing. Please wait..." message in cell B1
+sheet.update('B1', "Processing. Please wait...")
 
 # Create the video URI
 video_urii = done
 
 # Call the videoinspector function
 videoinspector(video_urii, transcribe=True)
+
+
+
