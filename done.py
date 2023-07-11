@@ -3,44 +3,64 @@ import gspread
 from google.cloud import videointelligence
 from oauth2client.service_account import ServiceAccountCredentials
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'path_to_your_service_account_file.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'lala.json'
 
 # Set up the scope
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 
-# Add your service account file
-creds = ServiceAccountCredentials.from_json_keyfile_name('sheetsdemo.json', scope)
-
 # Instantiate the client
+creds = ServiceAccountCredentials.from_json_keyfile_name('lala.json', scope)
 client = gspread.authorize(creds)
 
 # Open the Google Spreadsheet by its name (Make sure you have shared it with the client email)
-sheet = client.open('Your Spreadsheet Name').sheet1
+sheet = client.open('lala').sheet1
 
-video_client = videointelligence.VideoIntelligenceServiceClient()
-features = [videointelligence.Feature.SPEECH_TRANSCRIPTION]
+def update_transcription_to_sheet(transcription):
+    sheet.update('B1', transcription)
 
-# Define the configurations as raw dictionaries
-config = {"language_code": "en-US", "enable_automatic_punctuation": True}
-video_context = {"speech_transcription_config": config}
+def videoinspector(video_uri, transcribe=True):
+    # Set up the video intelligence client
+    video_client = videointelligence.VideoIntelligenceServiceClient()
+    features = [videointelligence.Feature.SPEECH_TRANSCRIPTION]
 
-operation = video_client.annotate_video(
-    request={
-        "features": features,
-        "input_uri": "gs://BUCKET_NAME/FILE_NAME",
-        "video_context": video_context,
-    }
-)
-print("\nProcessing. Please wait...")
+    # Define the configurations as raw dictionaries
+    config = {"language_code": "en-US", "enable_automatic_punctuation": True}
+    video_context = {"speech_transcription_config": config}
 
-result = operation.result()
+    # Submit the video transcription request
+    operation = video_client.annotate_video(
+        request={
+            "features": features,
+            "input_uri": video_uri,
+            "video_context": video_context,
+        }
+    )
 
-annotation_results = result.annotation_results[0]
-for speech_transcription in annotation_results.speech_transcriptions:
-    for alternative in speech_transcription.alternatives:
-        print("Alternative level info:")
-        print("Transcription: {}".format(alternative.transcript))
-        print("Confidence: {}\n".format(alternative.confidence))
+    if transcribe:
+        print("Processing. Please wait...")
+        result = operation.result()
 
-        # Append the data to the spreadsheet
-        sheet.append_row(["Transcription: {}".format(alternative.transcript), "Confidence: {}\n".format(alternative.confidence)])
+        annotation_results = result.annotation_results[0]
+        transcription = ""
+        for speech_transcription in annotation_results.speech_transcriptions:
+            for alternative in speech_transcription.alternatives:
+                transcription += "Transcription: {}\n".format(alternative.transcript)
+                transcription += "Confidence: {}\n\n".format(alternative.confidence)
+
+        update_transcription_to_sheet(transcription)
+    else:
+        print("Processing. Please wait... (Transcription disabled)")
+
+
+# Get the URL from cell A1
+cell = sheet.cell(1, 1)
+video_url = cell.value
+
+# Extract the video ID from the URL
+video_id = video_url.split('/')[-2]
+
+# Create the video URI
+video_uri = f"gs://speech_ig/{video_id}.mp4"
+
+# Call the videoinspector function
+videoinspector(video_uri, transcribe=True)
