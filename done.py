@@ -1,6 +1,5 @@
 import os
 import gspread
-import time
 from google.cloud import videointelligence
 from oauth2client.service_account import ServiceAccountCredentials
 from uri import done
