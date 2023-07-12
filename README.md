@@ -11,20 +11,20 @@
 * A video file to be transcribed, uploaded to Google Cloud Storage.
 * A Google Spreadsheet shared with the service account email.
 
-## **Usage**
-
-* Configure the environment variable GOOGLE_APPLICATION_CREDENTIALS to point to the JSON key file for the Google Cloud service account. The key file should be generated in Google Cloud Console and downloaded to your local drive.
-* Replace the placeholders 'path_to_your_service_account_file.json' and 'Your Spreadsheet Name' with your actual values.
-* Run the script. The script will process the video and the transcription result will be saved to the specified Google Spreadsheet.
-
 ## **Video URI**
 
-* The input_uri in the script refers to the URI of the video file stored in Google Cloud Storage that you want to transcribe. It's a string that follows this format: gs://BUCKET_NAME/FILE_NAME, where BUCKET_NAME is the name of your Google Cloud Storage bucket and FILE_NAME is the name of your video file.
+* In cell A1 in your spreadsheet, put a direct URL link to your video stored in Google Storage.
 * Please make sure that the video file is uploaded to Google Cloud Storage and the service account has appropriate permissions to access the file. If your video is not in a Google Cloud Storage bucket, you will need to upload it there first before running this script.
 * If you encounter issues, make sure:
 > * The video file is present at the indicated location on Google Cloud Storage, i.e., the input_uri is correctly pointing to the video file you intend to transcribe.
 > * The service account has the necessary permissions to access the video file in the bucket. You can set the permissions in the Google Cloud Console.
 > * The video file is in a format supported by the Cloud Video Intelligence API (for instance, MP4, AVI, FLV, MOV, etc.).
+
+## **Usage**
+
+* Configure the environment variable GOOGLE_APPLICATION_CREDENTIALS to point to the JSON key file for the Google Cloud service account. The key file should be generated in Google Cloud Console and downloaded to your local drive.
+* Replace the placeholders 'credentials.json' and 'SPREADSHEET_NAME' with your actual values.
+* Run the script. The script will process the video and the transcription result will be saved to the specified Google Spreadsheet in B1 cell.
 
 ## **Troubleshooting**
 

@@ -14,7 +14,7 @@ creds = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', sco
 client = gspread.authorize(creds)
 
 # Open the Google Spreadsheet by its name (Make sure you have shared it with the client email)
-sheet = client.open('SHEET_NAME').sheet1
+sheet = client.open('SPREADSHEET_NAME').sheet1
 
 def update_transcription_to_sheet(transcription):
     # Update cell B1 with the actual transcription result
