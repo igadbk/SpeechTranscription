@@ -3,6 +3,7 @@ import gspread
 from google.cloud import videointelligence
 from oauth2client.service_account import ServiceAccountCredentials
 from uri import done
+from youtube_transcript_api import YouTubeTranscriptApi
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'credentials.json'
 
@@ -53,23 +54,27 @@ def videoinspector(video_urii, transcribe=True):
 # Display the "Processing. Please wait..." message in cell B1
 sheet.update('B1', "Processing. Please wait...")
 
-# Create the video URI
-video_urii = done
+# Read the value from cell A1
+video_url = sheet.acell('A1').value
 
-# Call the videoinspector function
-videoinspector(video_urii, transcribe=True)
+if video_url.startswith('https://youtu.be/') or video_url.startswith('https://www.youtube.com/'):
+    # Extract the video ID from the YouTube URL
+    video_id = video_url.split('/')[-1]
 
+    # Get the transcript for the YouTube video
+    transcript = YouTubeTranscriptApi.get_transcript(video_id)
 
+    # Extract the text from each transcript segment
+    transcriptions = [segment['text'] for segment in transcript]
 
+    # Update cell B1 with the transcriptions
+    update_transcription_to_sheet('\n'.join(transcriptions))
+else:
+    # Create the video URI for Google Storage
+    video_urii = done
 
-
-
-
-
-
-
-
-
+    # Call the videoinspector function
+    videoinspector(video_urii, transcribe=True)
 
 
 

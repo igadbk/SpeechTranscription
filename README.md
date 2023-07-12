@@ -1,4 +1,4 @@
-# **Documentation for Video Transcription Script**
+# **Documentation for Video Transcription Script - Youtube & Google Storage Videos**
 
 ## **Requirements**
 
@@ -11,9 +11,9 @@
 * A video file to be transcribed, uploaded to Google Cloud Storage.
 * A Google Spreadsheet shared with the service account email.
 
-## **Video URI**
+## **Video URL**
 
-* In cell A1 in your spreadsheet, put a direct URL link to your video stored in Google Storage.
+* In cell A1 in your spreadsheet, put a direct URL link to your video stored in Google Storage or YouTube video URL (make sure that this video has has a transcript available).
 * Please make sure that the video file is uploaded to Google Cloud Storage and the service account has appropriate permissions to access the file. If your video is not in a Google Cloud Storage bucket, you will need to upload it there first before running this script.
 * If you encounter issues, make sure:
 > * The video file is present at the indicated location on Google Cloud Storage, i.e., the input_uri is correctly pointing to the video file you intend to transcribe.
@@ -24,7 +24,7 @@
 
 * Configure the environment variable GOOGLE_APPLICATION_CREDENTIALS to point to the JSON key file for the Google Cloud service account. The key file should be generated in Google Cloud Console and downloaded to your local drive.
 * Replace the placeholders 'credentials.json' and 'SPREADSHEET_NAME' with your actual values.
-* Run the script. The script will process the video and the transcription result will be saved to the specified Google Spreadsheet in B1 cell.
+* Run the done.py script. The script will process the video and the transcription result will be saved to the specified Google Spreadsheet in B1 cell.
 
 ## **Troubleshooting**
 
