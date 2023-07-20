@@ -4,17 +4,17 @@ from google.cloud import videointelligence
 from oauth2client.service_account import ServiceAccountCredentials
 from uri import done
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'credentials.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'lalalala.json'
 
 # Set up the scope
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 
 # Instantiate the client
-creds = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name('lalalala.json', scope)
 client = gspread.authorize(creds)
 
 # Open the Google Spreadsheet by its name (Make sure you have shared it with the client email)
-sheet = client.open('SPREADSHEET_NAME').sheet1
+sheet = client.open('lala').sheet1
 
 def update_transcription_to_sheet(transcription):
     # Update cell B1 with the actual transcription result

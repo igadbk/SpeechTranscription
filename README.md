@@ -24,7 +24,7 @@
 
 * Configure the environment variable GOOGLE_APPLICATION_CREDENTIALS to point to the JSON key file for the Google Cloud service account. The key file should be generated in Google Cloud Console and downloaded to your local drive.
 * Replace the placeholders 'credentials.json' and 'SPREADSHEET_NAME' with your actual values.
-* Run the done.py script. The script will process the video and the transcription result will be saved to the specified Google Spreadsheet in B1 cell.
+* Run the url.py script. The script will process the video and the transcription result will be saved to the specified Google Spreadsheet in B1 cell.
 
 ## **Troubleshooting**
 
