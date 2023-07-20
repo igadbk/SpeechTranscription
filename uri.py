@@ -3,7 +3,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 def get_video_uri():
     # Path to the JSON file with authentication data
-    credentials_file = 'lalalala.json'
+    credentials_file = 'credentials.json'
 
     # Create authentication scope
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
@@ -15,7 +15,7 @@ def get_video_uri():
     client = gspread.authorize(credentials)
 
     # Open the Google Sheets spreadsheet
-    spreadsheet = client.open('lala')  # Replace 'Spreadsheet_Name' with the name of your spreadsheet
+    spreadsheet = client.open('SPREADSHEET_NAME')  # Replace 'Spreadsheet_Name' with the name of your spreadsheet
 
     # Select the worksheet
     worksheet = spreadsheet.sheet1
